@@ -1,7 +1,12 @@
 ## Script to pull information on all mailboxes and list who has what permission on them.
 ## By Mark Slingo (mark.sl) Aug 2024
 
-$user_find_permissions= "*Henrietta Fischer*"
+$user_find_permissions = Read-Host "User to search: "
+If(!$user_find_permissions) {
+    Write-Host "`nName cannot be blank. Please try again." -ForegroundColor Red
+    Return
+}
+Connect-ExchangeOnline
 $allpermissions = @()
 $MBXs= Get-Mailbox -ResultSize Unlimited
 Foreach ($MBX in $MBXs){
