@@ -10,11 +10,11 @@ Connect-ExchangeOnline
 $allpermissions = @()
 $MBXs= Get-Mailbox -ResultSize Unlimited
 Foreach ($MBX in $MBXs){
-$MBXfolders=Get-MailboxFolderStatistics $MBX.PrimarySmtpAddress |select Name
+$MBXfolders=Get-MailboxFolderStatistics $MBX.PrimarySmtpAddress | Select-Object Name
 Foreach ($MBXfolder in $MBXfolders){
 try {
 $folder=$MBX.PrimarySmtpAddress + ":\" + $MBXfolder.name
-$folderpermessions= Get-MailboxFolderPermission -Identity $folder -ErrorAction Stop | where {($_.user -like $user_find_permissions)}
+$folderpermessions= Get-MailboxFolderPermission -Identity $folder -ErrorAction Stop | Where-Object {($_.user -like $user_find_permissions)}
 $allpermissions += $folderpermessions
 }
 catch {
@@ -22,4 +22,4 @@ Continue
 }
 }
 }
-$allpermissions | select Identity, FolderName, User,AccessRights
+$allpermissions | Select-Object Identity, FolderName, User,AccessRights
